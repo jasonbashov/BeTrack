@@ -42,7 +42,7 @@ namespace MyBettingTracker
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
             // Configure validation logic for usernames
@@ -52,6 +52,18 @@ namespace MyBettingTracker
                 RequireUniqueEmail = true
             };
 
+            //TODO: Change to normal
+#if DEBUG
+            // Configure validation logic for passwords
+            manager.PasswordValidator = new PasswordValidator
+            {
+                RequiredLength = 3,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
+            };
+#else
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
@@ -61,6 +73,8 @@ namespace MyBettingTracker
                 RequireLowercase = true,
                 RequireUppercase = true,
             };
+#endif
+
 
             // Configure user lockout defaults
             manager.UserLockoutEnabledByDefault = true;
@@ -83,7 +97,7 @@ namespace MyBettingTracker
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = 
+                manager.UserTokenProvider =
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;

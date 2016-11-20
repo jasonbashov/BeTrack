@@ -6,6 +6,11 @@
 
     public abstract class AuditInfo : IAuditInfo
     {
+        public AuditInfo()
+        {
+            this.CreatedOn = DateTime.Now;
+        }
+
         public DateTime CreatedOn { get; set; }
 
         /// <summary>

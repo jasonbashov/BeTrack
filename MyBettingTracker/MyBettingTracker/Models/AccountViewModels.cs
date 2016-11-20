@@ -70,7 +70,16 @@ namespace MyBettingTracker.Models
         public string Email { get; set; }
 
         [Required]
+        [Display(Name = "Username")]
+        [StringLength(25, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        public string Username { get; set; }
+
+#if DEBUG
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
+#else
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+#endif
+        [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
