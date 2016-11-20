@@ -17,6 +17,7 @@
         {
             // This will prevent UserManager.CreateAsync from causing exception
             this.CreatedOn = DateTime.Now;
+            this.UserSettings = new UserSettings();
         }
 
         public DateTime CreatedOn { get; set; }
@@ -28,7 +29,10 @@
         public DateTime? ModifiedOn { get; set; }
 
         public bool PreserveCreatedOn { get; set; }
-        
+
+        public UserSettings UserSettings { get; set; }
+
+        public int UserSettingsId { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
